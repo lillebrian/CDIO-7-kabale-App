@@ -2,6 +2,7 @@ package com.example.a7_kabale;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceView;
@@ -9,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i("TAG", "called onCreate");
