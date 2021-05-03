@@ -59,8 +59,11 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
     private CameraBridgeViewBase mOpenCvCameraView;
 //    private ArrayList<String>    classes = new ArrayList<String>();
-    List<String> classes = Arrays.asList("a person", "a bicycle", "a motorbike", "an airplane", "a bus", "a train", "a truck", "a boat", "a traffic light", "a fire hydrant", "a stop sign", "a parking meter", "a car", "a bench", "a bird", "a cat", "a dog", "a horse", "a sheep", "a cow", "an elephant", "a bear", "a zebra", "a giraffe", "a backpack", "an umbrella", "a handbag", "a tie", "a suitcase", "a frisbee", "skis", "a snowboard", "a sports ball", "a kite", "a baseball bat", "a baseball glove", "a skateboard", "a surfboard", "a tennis racket", "a bottle", "a wine glass", "a cup", "a fork", "a knife", "a spoon", "a bowl", "a banana", "an apple", "a sandwich", "an orange", "broccoli", "a carrot", "a hot dog", "a pizza", "a doughnut", "a cake", "a chair", "a sofa", "a potted plant", "a bed", "a dining table", "a toilet", "a TV monitor", "a laptop", "a computer mouse", "a remote control", "a keyboard", "a cell phone", "a microwave", "an oven", "a toaster", "a sink", "a refrigerator", "a book", "a clock", "a vase", "a pair of scissors", "a teddy bear", "a hair drier", "a toothbrush");
-//    List<String> classes = Arrays.asList("AH");
+//    List<String> classes = Arrays.asList("a person", "a bicycle", "a motorbike", "an airplane", "a bus", "a train", "a truck", "a boat", "a traffic light", "a fire hydrant", "a stop sign", "a parking meter", "a car", "a bench", "a bird", "a cat", "a dog", "a horse", "a sheep", "a cow", "an elephant", "a bear", "a zebra", "a giraffe", "a backpack", "an umbrella", "a handbag", "a tie", "a suitcase", "a frisbee", "skis", "a snowboard", "a sports ball", "a kite", "a baseball bat", "a baseball glove", "a skateboard", "a surfboard", "a tennis racket", "a bottle", "a wine glass", "a cup", "a fork", "a knife", "a spoon", "a bowl", "a banana", "an apple", "a sandwich", "an orange", "broccoli", "a carrot", "a hot dog", "a pizza", "a doughnut", "a cake", "a chair", "a sofa", "a potted plant", "a bed", "a dining table", "a toilet", "a TV monitor", "a laptop", "a computer mouse", "a remote control", "a keyboard", "a cell phone", "a microwave", "an oven", "a toaster", "a sink", "a refrigerator", "a book", "a clock", "a vase", "a pair of scissors", "a teddy bear", "a hair drier", "a toothbrush");
+    List<String> classes = Arrays.asList("Ah","Kh","Qh","Jh","10h","9h","8h","7h","6h","5h","4h",
+                            "3h","2h","Ad","Kd","Qd","Jd","10d","9d","8d","7d","6d","5d","4d","3d","2d",
+                            "Ac","Kc","Qc","Jc","10c","9c","8c","7c","6c","5c","4c","3c","2c","As","Ks",
+                            "Qs","Js","10s","9s","8s","7s","6s","5s","4s","3s","2s");
 
 //    String classesFile = "coco.names";
 //    String modelConfiguration = "/yolov3.cfg";
@@ -110,8 +113,9 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-        frame = inputFrame.rgba();
-        if (startYolo) {
+
+        if (startYolo || true) {
+            frame = inputFrame.rgba();
             Mat dst = new Mat();
             Imgproc.cvtColor(frame, dst, Imgproc.COLOR_BGRA2BGR);
             Mat blob = Dnn.blobFromImage(dst, 1/255.0, new Size(inpWidth, inpHeight), new Scalar(0,0,0), true, false);
@@ -126,10 +130,10 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
     @Override
     public void onCameraViewStarted(int width, int height) {
-        String tinyYoloCfg = getAssetsFile("yolov3-obj.cfg", this);
-        String tinyYoloWeights = getAssetsFile("yolov3-obj_4700.weights", this);
-//            String tinyYoloCfg = getAssetsFile("yolov3-tiny-obj-test.cfg", this);
-//            String tinyYoloWeights = getAssetsFile("yolov3-tiny-obj_best.weights", this);
+//        String tinyYoloCfg = getAssetsFile("yolov3-obj-test.cfg", this);
+//        String tinyYoloWeights = getAssetsFile("yolov3-obj_4700.weights", this);
+            String tinyYoloCfg = getAssetsFile("yolov3-tiny-obj-test.cfg", this);
+            String tinyYoloWeights = getAssetsFile("yolov3-tiny-obj_10000.weights", this);
         net = Dnn.readNetFromDarknet(tinyYoloCfg, tinyYoloWeights);
         net.setPreferableBackend(Dnn.DNN_BACKEND_OPENCV);
         net.setPreferableTarget(Dnn.DNN_TARGET_CPU);
