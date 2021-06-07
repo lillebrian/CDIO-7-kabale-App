@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">7-kabale</string>
+    <string name="title_activity_start">StartActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
+    <string name="title_activity_instruction">InstructionActivity</string>
+    <string name="title_activity_scanner">ScannerActivity</string>
 </resources>
