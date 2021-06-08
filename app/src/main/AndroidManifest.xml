@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.a7_kabale">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-feature android:name="android.hardware.type.watch" />
+
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -34,9 +38,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
 
+
         <activity
             android:name=".Activities.StartActivity"
             android:label="@string/title_activity_start">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activities.AboutActivity"
+            android:label="@string/title_activity_about">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

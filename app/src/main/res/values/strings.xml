@@ -8,4 +8,5 @@
     <string name="hello_world">Hello Square World!</string>
     <string name="title_activity_instruction">InstructionActivity</string>
     <string name="title_activity_scanner">ScannerActivity</string>
+    <string name="title_activity_about">AboutActivity</string>
 </resources>

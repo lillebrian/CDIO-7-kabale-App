@@ -192,8 +192,7 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
         return "";
     }
 
-    List<String> getOutputsNames(Net net)
-    {
+    List<String> getOutputsNames(Net net) {
         ArrayList<String> names = new ArrayList<String>();
         if (names.size() == 0)
         {
@@ -211,8 +210,7 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
         return names;
     }
 
-    private void drawPred(int classId, float conf, int left, int top, int right, int bottom, Mat frame)
-    {
+    private void drawPred(int classId, float conf, int left, int top, int right, int bottom, Mat frame) {
         //Draw a rectangle displaying the bounding box
         rectangle(frame, new Point(left, top), new Point(right, bottom), new Scalar(255, 178, 50), 3);
 
@@ -233,12 +231,12 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
         putText(frame, label, new Point(left, top), Imgproc.FONT_HERSHEY_SIMPLEX, 0.75, new Scalar(0,0,0),1);
     }
 
-    private float get_iou(Rect bb1, Rect bb2){
+    private float get_iou(Rect bb1, Rect bb2) {
         int x_left = java.lang.Math.max(bb1.x, bb2.x);
         int y_top = java.lang.Math.max(bb1.y, bb2.y);
         int x_right = java.lang.Math.min(bb1.x + bb1.height, bb2.x + bb2.height);
         int y_bottom = java.lang.Math.min(bb1.y + bb1.width, bb2.y + bb2.width);
-        if( x_right < x_left || y_bottom < y_top){
+        if( x_right < x_left || y_bottom < y_top) {
             return 0.0f;
         }
         int intersection_area = (x_right - x_left) * (y_bottom - y_top);
@@ -344,7 +342,6 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
         }
         System.out.println("classID's : " + classIds.toString());
     }
-
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {

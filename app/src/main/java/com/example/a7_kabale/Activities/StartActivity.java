@@ -35,7 +35,8 @@ public class StartActivity extends AppCompatActivity implements Button.OnClickLi
             Intent i = new Intent(this, InstructionActivity.class);
             startActivity(i);
         } else if(aboutBtn.equals(v)) {
-
+            Intent i = new Intent(this, AboutActivity.class);
+            startActivity(i);
         }
     }
 }
