@@ -49,8 +49,6 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
     CameraBridgeViewBase cameraBridgeViewBase;
     BaseLoaderCallback baseLoaderCallback;
     boolean startYolo = false;
-    boolean firstTimeYolo = false;
-    Net tinyYolo;
 
     private CameraBridgeViewBase mOpenCvCameraView;
 //    private ArrayList<String>    classes = new ArrayList<String>();
@@ -109,7 +107,7 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
 
-        if (startYolo || true) {
+        if (startYolo) {
             frame = inputFrame.rgba();
             Mat dst = new Mat();
             Imgproc.cvtColor(frame, dst, Imgproc.COLOR_BGRA2BGR);
@@ -118,7 +116,6 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
             List<Mat> outs = new ArrayList<Mat>();
             net.forward(outs, getOutputsNames(net));
             postprocess(frame, outs);
-            startYolo = false;
         }
         return frame;
     }
@@ -248,25 +245,21 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
         return iou;
     }
 
-    void postprocess(Mat frame, List<Mat> outs)
-    {
+    void postprocess(Mat frame, List<Mat> outs) {
         List<Integer> classIds = new ArrayList<Integer>();
         List<Float> confidences = new ArrayList<Float>();
         List<Rect2d> boxes = new ArrayList<Rect2d>();
         //List<Integer> idxs = new ArrayList<Integer>();
         List<Float> objconf = new ArrayList<Float>();
 
-        for (int i = 0; i < outs.size(); ++i)
-        {
+        for (int i = 0; i < outs.size(); ++i) {
             int cols = 0;
-            for (int j = 0; j < outs.get(i).rows(); ++j)
-            {
+            for (int j = 0; j < outs.get(i).rows(); ++j) {
                 Mat scores = outs.get(i).row(j).colRange(5, outs.get(i).row(j).cols());
                 Point classIdPoint;
                 double confidence;
                 Core.MinMaxLocResult r = Core.minMaxLoc(scores);
-                if (r.maxVal > confThreshold)
-                {
+                if (r.maxVal > confThreshold) {
                     Mat bb = outs.get(i).row(j).colRange(0, 5);
                     float[] data = new float[1];
                     bb.get(0, 0, data);
@@ -336,6 +329,9 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
             for (int i = 0; i < indices.length; ++i) {
                 int idx = indices[i];
                 Rect2d box = boxes.get(idx);
+                if (confidences.get(idx) > 0.9) {
+                    System.out.println("yahooo");
+                }
                 drawPred(classIds.get(idx), confidences.get(idx), (int)box.x, (int)box.y,
                         (int)(box.x + box.width), (int)(box.y + box.height), frame);
             }
