@@ -6,12 +6,38 @@
     android:layout_height="match_parent"
     tools:context=".Activities.ScannerActivity">
 
+    <LinearLayout
+        android:id="@+id/cardViewer"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="#16321C"
+        android:clipChildren="false"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+<!--        <ImageView-->
+<!--            android:id="@+id/imageView"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:adjustViewBounds="true"-->
+<!--            android:contentDescription="@string/card"-->
+<!--            android:visibility="gone"-->
+<!--            app:srcCompat="@drawable/cards_back"-->
+<!--            tools:srcCompat="@drawable/cards_back"-->
+<!--            tools:visibility="visible" />-->
+    </LinearLayout>
+
     <org.opencv.android.JavaCameraView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible"
         android:id="@+id/cameraView"
-        />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardViewer" />
 
     <Button
         android:id="@+id/Edge_Detection"

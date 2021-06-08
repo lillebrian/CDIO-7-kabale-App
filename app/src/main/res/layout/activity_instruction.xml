@@ -5,7 +5,7 @@
     android:id="@+id/boxInsetLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#57AE59"
+    android:background="#16321C"
     tools:context=".Activities.InstructionActivity"
     tools:deviceIds="wear">
 

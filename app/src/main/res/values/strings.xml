@@ -9,4 +9,5 @@
     <string name="title_activity_instruction">InstructionActivity</string>
     <string name="title_activity_scanner">ScannerActivity</string>
     <string name="title_activity_about">AboutActivity</string>
+    <string name="card">card</string>
 </resources>

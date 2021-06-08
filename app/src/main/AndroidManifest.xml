@@ -41,7 +41,8 @@
 
         <activity
             android:name=".Activities.StartActivity"
-            android:label="@string/title_activity_start">
+            android:label="@string/title_activity_start"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -50,7 +51,8 @@
         </activity>
         <activity
             android:name=".Activities.AboutActivity"
-            android:label="@string/title_activity_about">
+            android:label="@string/title_activity_about"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -59,14 +61,16 @@
         </activity>
         <activity
             android:name=".Activities.InstructionActivity"
-            android:label="@string/title_activity_instruction">
+            android:label="@string/title_activity_instruction"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.ScannerActivity">
+        <activity android:name=".Activities.ScannerActivity"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
