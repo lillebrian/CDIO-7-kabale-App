@@ -42,6 +42,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+/**@Author Mikkel Johansen, s175194 */
 public class ScannerActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
     private static final String TAG = "MainActivity";
 

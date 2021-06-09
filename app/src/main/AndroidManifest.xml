@@ -37,8 +37,7 @@
         android:screenOrientation="landscape"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
-
-
+        <activity android:name=".Activities.MoveActivity"></activity>
         <activity
             android:name=".Activities.StartActivity"
             android:label="@string/title_activity_start"
@@ -69,7 +68,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.ScannerActivity"
+        <activity
+            android:name=".Activities.ScannerActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
