@@ -1,44 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scannerConstraint"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.ScannerActivity">
+    tools:context=".Activities.ScannerActivity"
+    >
+    <RelativeLayout
+        android:id="@+id/scannerMainLL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00FFFFFF"
+        >
 
-    <LinearLayout
-        android:id="@+id/cardViewer"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:background="#16321C"
-        android:clipChildren="false"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        <RelativeLayout
+            android:id="@+id/cardViewer"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="#16321C"
+            android:clipChildren="false"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-<!--        <ImageView-->
-<!--            android:id="@+id/imageView"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:layout_weight="1"-->
-<!--            android:adjustViewBounds="true"-->
-<!--            android:contentDescription="@string/card"-->
-<!--            android:visibility="gone"-->
-<!--            app:srcCompat="@drawable/cards_back"-->
-<!--            tools:srcCompat="@drawable/cards_back"-->
-<!--            tools:visibility="visible" />-->
-    </LinearLayout>
+            <!--        <ImageView-->
+            <!--            android:id="@+id/imageView"-->
+            <!--            android:layout_width="0dp"-->
+            <!--            android:layout_height="50dp"-->
+            <!--            android:layout_weight="1"-->
+            <!--            android:adjustViewBounds="true"-->
+            <!--            android:contentDescription="@string/card"-->
+            <!--            android:visibility="gone"-->
+            <!--            app:srcCompat="@drawable/cards_back"-->
+            <!--            tools:srcCompat="@drawable/cards_back"-->
+            <!--            tools:visibility="visible" />-->
 
-    <org.opencv.android.JavaCameraView
-        android:id="@+id/cameraView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardViewer" />
 
+
+        </RelativeLayout>
+
+        <org.opencv.android.JavaCameraView
+            android:id="@+id/cameraView"
+            android:layout_below="@+id/cardViewer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardViewer" />
+    </RelativeLayout>
     <Button
         android:id="@+id/Edge_Detection"
         android:layout_width="wrap_content"
@@ -48,8 +60,20 @@
         android:layout_marginBottom="16dp"
         android:onClick="Yolo"
         android:text="Yolo"
-        app:layout_constraintBottom_toBottomOf="@+id/cameraView"
+        app:layout_constraintBottom_toBottomOf="@+id/scannerMainLL"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/expandCV"
+        android:layout_width="17dp"
+        android:layout_height="17dp"
+        android:layout_marginTop="43dp"
+        android:background="@drawable/down_arrow"
+        android:backgroundTint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

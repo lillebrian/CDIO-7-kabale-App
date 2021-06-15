@@ -2,17 +2,25 @@ package com.example.a7_kabale.Activities;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.graphics.Matrix;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
+import android.view.View.OnTouchListener;
 
 import com.example.a7_kabale.R;
 
@@ -56,11 +64,16 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
             "Ac","Kc","Qc","Jc","10c","9c","8c","7c","6c","5c","4c","3c","2c","As","Ks",
             "Qs","Js","10s","9s","8s","7s","6s","5s","4s","3s","2s");
 
+
+    //Items in the activity
+    Button expandCV;
+
     //linked list to act as queue for which cards that still needs scanning
     LinkedList<Integer> queue = new LinkedList<>();
 
     //int value to define how many cards there should be scanned
     int cardsToScan = 7;
+    Boolean isExpanded = false;
 
     //classes used for OpenCV
     CameraBridgeViewBase cameraBridgeViewBase;
@@ -90,7 +103,13 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner);
 
-        LinearLayout cardHolder = findViewById(R.id.cardViewer);
+        RelativeLayout cardHolder = findViewById(R.id.cardViewer);
+        ImageView expandCV = findViewById(R.id.expandCV);
+        Button yoloBtn = findViewById(R.id.Edge_Detection);
+        ConstraintLayout constraintLayout = findViewById(R.id.scannerConstraint);
+        ConstraintSet constraintSet = new ConstraintSet();
+        constraintSet.clone(constraintLayout);
+
 //        RelativeLayout cardHolder = findViewById(R.id.cardViewer);
         for (int i = 0; i < cardsToScan; i++) {
             ImageView image = new ImageView(getApplicationContext());
@@ -101,6 +120,7 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
                 image.setImageDrawable(getDrawable(R.drawable.cards_back));
             image.setAdjustViewBounds(true);
             image.setClickable(true);
+
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -145,6 +165,41 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
                 }
             }
         };
+        expandCV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!isExpanded) {
+
+                    cardHolder.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+
+                    constraintSet.connect(R.id.expandCV, ConstraintSet.BOTTOM, R.id.scannerConstraint, ConstraintSet.BOTTOM, 0);
+                    constraintSet.clear(R.id.expandCV, ConstraintSet.TOP);
+                    ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) expandCV.getLayoutParams();
+                    params.setMargins(0,0,0,0);
+                    yoloBtn.setVisibility(View.INVISIBLE);
+                    yoloBtn.setVisibility(View.GONE);
+
+                    expandCV.setBackgroundResource(R.drawable.up_arrow);
+
+                    constraintSet.applyTo(constraintLayout);
+                    isExpanded = true;
+                } else {
+                    final float scale = (getResources().getDisplayMetrics().density);
+
+                    cardHolder.getLayoutParams().height = (int) (60 * scale + 0.5f);
+
+                    constraintSet.clear(R.id.expandCV, ConstraintSet.BOTTOM);
+                    constraintSet.connect(R.id.expandCV, ConstraintSet.TOP, R.id.scannerConstraint, ConstraintSet.TOP, (int)(43 * scale + 0.5f));
+                    yoloBtn.setVisibility(View.VISIBLE);
+
+                    expandCV.setBackgroundResource(R.drawable.down_arrow);
+
+                    constraintSet.applyTo(constraintLayout);
+                    isExpanded = false;
+                }
+
+            }
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

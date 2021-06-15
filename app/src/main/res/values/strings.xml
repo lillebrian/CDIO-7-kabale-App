@@ -20,6 +20,8 @@
         <item name="android:adjustViewBounds">true</item>
         <!--<item name="android:background">?android:attr/listDivider</item>-->
     </style>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
 
