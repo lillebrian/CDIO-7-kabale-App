@@ -103,7 +103,7 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner);
 
-        RelativeLayout cardHolder = findViewById(R.id.cardViewer);
+        LinearLayout cardHolder = findViewById(R.id.cardViewer);
         ImageView expandCV = findViewById(R.id.expandCV);
         Button yoloBtn = findViewById(R.id.Edge_Detection);
         ConstraintLayout constraintLayout = findViewById(R.id.scannerConstraint);
