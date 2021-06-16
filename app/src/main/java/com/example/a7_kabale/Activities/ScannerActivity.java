@@ -7,6 +7,7 @@ import androidx.constraintlayout.widget.ConstraintSet;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Matrix;
 import android.os.Build;
@@ -53,7 +54,7 @@ import java.util.List;
 /**@Author Mikkel Johansen, s175194 */
 public class ScannerActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
     private static final String TAG = "MainActivity";
-
+    Context whoAmI = this;
     //defines list to contains scannedCards, their confidentiality levels and a list over all the
     // card names ordered in the same way as the class id's
     ArrayList<String> scannedCards = new ArrayList<>();
@@ -109,7 +110,7 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
         ConstraintLayout constraintLayout = findViewById(R.id.scannerConstraint);
         ConstraintSet constraintSet = new ConstraintSet();
         constraintSet.clone(constraintLayout);
-
+        int cardsToScan = getIntent().getIntExtra("amount", 0);
 //        RelativeLayout cardHolder = findViewById(R.id.cardViewer);
         for (int i = 0; i < cardsToScan; i++) {
             ImageView image = new ImageView(getApplicationContext());
@@ -120,6 +121,7 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
                 image.setImageDrawable(getDrawable(R.drawable.cards_back));
             image.setAdjustViewBounds(true);
             image.setClickable(true);
+            image.setMaxHeight(500);
 
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -209,7 +211,6 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
         Mat frame = inputFrame.rgba();
         //#TODO replace this with getFirst on the queue to check if empty
         if (startYolo) {
-//        if (queue.peekFirst() == null) {
             Imgproc.cvtColor(frame, frame, Imgproc.COLOR_RGBA2RGB);
 
             //#TODO check which one seems best (Size)
@@ -298,8 +299,16 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
                         scannedCards.set(queueIndex, name);
                         //can be used for testing to see how high fails get through in confidentiality
                         scannedCardsConf.set(queueIndex, conf);
+                        if (queue.peekFirst() == null) {
+//                            finishUp();
+                            Intent returnIntent = new Intent();
+                            returnIntent.putStringArrayListExtra("result", new ArrayList<>(scannedCards));
+                            setResult(this.RESULT_OK, returnIntent);
+                            finish();
+                        }
                         //updates the card on the ui
-                        updateCard(name, queueIndex);
+                        else
+                            updateCard(name, queueIndex);
                     }
                     //for testing purposes
                     System.out.println("queue: " + queue.toString());
@@ -385,5 +394,12 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
             Log.i(TAG, "Failed to upload a file");
         }
         return "";
+    }
+
+    private void finishUp() {
+        Intent returnIntent = new Intent();
+        returnIntent.putStringArrayListExtra("result", new ArrayList<>(scannedCards));
+        setResult(this.RESULT_OK, returnIntent);
+        finish();
     }
 }

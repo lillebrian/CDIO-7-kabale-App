@@ -37,7 +37,7 @@
         android:screenOrientation="landscape"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
-        <activity android:name=".Activities.MoveActivity"></activity>
+        <activity android:name=".Activities.MoveActivity" />
         <activity
             android:name=".Activities.StartActivity"
             android:label="@string/title_activity_start"

@@ -26,7 +26,8 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         if(v.equals(nextBtn)) {
-            Intent i = new Intent(this, ScannerActivity.class);
+//            Intent i = new Intent(this, ScannerActivity.class);
+            Intent i = new Intent(this, MoveActivity.class);
             startActivity(i);
         }
     }
