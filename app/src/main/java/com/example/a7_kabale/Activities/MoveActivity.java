@@ -1,6 +1,8 @@
 package com.example.a7_kabale.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.a7_kabale.Adapters.MoveAdapter;
+import com.example.a7_kabale.Items.MoveItem;
 import com.example.a7_kabale.R;
 
 import java.util.ArrayList;
@@ -18,6 +22,10 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
     private SharedPreferences savedVars;
     int LAUNCH_SECOND_ACTIVITY = 1;
 
+    private RecyclerView moveRecyclerView;
+    private RecyclerView.Adapter moveAdapter;
+    private RecyclerView.LayoutManager recyclerViewManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +33,18 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView title = findViewById(R.id.moveTitle);
         Button nextStep = findViewById(R.id.nextStepButton);
+        ArrayList<MoveItem> exampleList = new ArrayList<>();
+        exampleList.add(new MoveItem(7.1f, "♥️6 → ♠️7" ));
+        exampleList.add(new MoveItem(4.3f, "♥️Q → ♣️️K" ));
+        exampleList.add(new MoveItem(2.0f, "♠2️ → ️♦️7" ));
+        exampleList.add(new MoveItem(1.0f, "Draw" ));
+
+        moveRecyclerView = findViewById(R.id.moveRecyclerView);
+        moveRecyclerView.setHasFixedSize(true);
+        recyclerViewManager = new LinearLayoutManager(this);
+        moveAdapter = new MoveAdapter(exampleList);
+        moveRecyclerView.setLayoutManager(recyclerViewManager);
+        moveRecyclerView.setAdapter(moveAdapter);
 
         nextStep.setOnClickListener(this);
         //Logic Initialised

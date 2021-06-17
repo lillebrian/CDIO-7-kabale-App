@@ -5,7 +5,7 @@
     android:id="@+id/boxInsetLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#16321C"
+    android:background="@drawable/background_gradient"
     tools:context=".Activities.InstructionActivity"
     tools:deviceIds="wear">
 
@@ -14,13 +14,16 @@
         android:id="@+id/instructionTitleTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="96dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginTop="44dp"
         android:text="Instructions"
-        android:textColor="@color/white"
+        android:fontFamily="@font/allerta"
+        android:shadowColor="@color/white"
+        android:shadowDx="0"
+        android:shadowDy="4"
+        android:shadowRadius="1"
+        android:textColor="#DAA911"
         android:textSize="40dp"
-        app:layout_constraintBottom_toTopOf="@+id/underTitleTextTV"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,30 +31,39 @@
         android:id="@+id/underTitleTextTV"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="89dp"
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/allerta"
+        android:shadowColor="@color/white"
+        android:shadowDx="0"
+        android:shadowDy="2"
+        android:shadowRadius="1"
         android:text="Here you can read about how the app is gonna function and it's features."
         android:textAlignment="center"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/instructionsTV"
+        android:textColor="#DAA911"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/instructionTitleTV"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/instructionTitleTV" />
 
     <TextView
         android:id="@+id/instructionsTV"
         android:layout_width="268dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="38dp"
-        android:layout_marginEnd="38dp"
-        android:layout_marginBottom="179dp"
+        android:layout_marginTop="64dp"
+        android:fontFamily="@font/allerta"
+        android:padding="8dp"
+        android:shadowColor="@color/white"
+        android:shadowDx="0"
+        android:shadowDy="2"
+        android:shadowRadius="1"
         android:text="1.  Put the 7 piles on a flat surface and afterwards scan the face up cards.
         \n\n2.  Now take a picture of every card in the remaining cardpile.
         \n\n3.  You are now ready to follow the algorithm and the next page."
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/instructionNextBtn"
+        android:textColor="#DAA911"
+
+        android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/underTitleTextTV" />
 
@@ -59,12 +71,19 @@
         android:id="@+id/instructionNextBtn"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="88dp"
+        android:layout_marginBottom="92dp"
+
+        android:background="@drawable/button_edge"
+        android:fontFamily="@font/allerta"
         android:text="Next"
+        android:textColor="@color/white"
+        android:textSize="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/instructionsTV"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
