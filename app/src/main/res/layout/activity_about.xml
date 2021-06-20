@@ -76,7 +76,7 @@ into this small app."
         android:layout_width="373dp"
         android:layout_height="117dp"
         android:layout_marginTop="64dp"
-        android:background="@drawable/gruppe13"
+        android:src="@drawable/gruppe13"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
