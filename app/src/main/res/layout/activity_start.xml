@@ -5,27 +5,81 @@
     android:id="@+id/boxInsetLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/baggrundv2"
+    android:background="@drawable/background_gradient"
     android:padding="@dimen/box_inset_layout_padding"
     tools:context=".Activities.StartActivity">
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:fontFamily="@font/allerta"
+        android:shadowColor="@color/white"
+        android:shadowDx="0"
+        android:shadowDy="4"
+        android:shadowRadius="1"
+        android:textColor="#DAA911"
+        android:textSize="40dp"
+        android:text="Solitaire solver"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/allerta"
+        android:shadowColor="@color/white"
+        android:shadowDx="0"
+        android:shadowDy="4"
+        android:shadowRadius="1"
+        android:text="by Gruppe 13"
+        android:textColor="#DAA911"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/cards"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
     <Button
         android:id="@+id/startBtn"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
+        android:layout_width="170dp"
+        android:layout_height="55dp"
         android:layout_marginBottom="20dp"
+        android:background="@drawable/button_edge"
+        android:fontFamily="sans-serif-light"
         android:text="Start"
+        android:textColor="@color/white"
+        android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/aboutBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/aboutBtn"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
+        android:layout_width="170dp"
+        android:layout_height="55dp"
         android:layout_marginBottom="100dp"
+        android:textSize="20dp"
         android:text="About"
+        android:textColor="@color/white"
+        android:background="@drawable/button_edge"
+        android:fontFamily="sans-serif-light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

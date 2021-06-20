@@ -18,7 +18,7 @@
             android:id="@+id/cardViewer"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="#16321C"
+            android:background="@drawable/background_gradient"
             android:clipChildren="false"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
