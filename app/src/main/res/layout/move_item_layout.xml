@@ -9,17 +9,17 @@
     <LinearLayout
         android:id="@+id/moveLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:gravity="center">
 
         <TextView
-            android:id="@+id/movePoints"
+            android:id="@+id/moveIndex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="POINTS"
+            android:text="MOVE X"
             android:fontFamily="@font/allerta"
             android:shadowColor="@color/white"
             android:shadowDx="0"
@@ -43,10 +43,32 @@
             android:padding="2dp"
             />
         <TextView
-            android:id="@+id/moveInfo"
+            android:id="@+id/card1TV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MOVEINFOMOVE"
+            android:text="CARD1"
+            android:fontFamily="@font/allerta"
+            android:shadowColor="@color/white"
+            android:shadowDx="0"
+            android:shadowDy="2"
+            android:shadowRadius="1"
+            android:textColor="#DAA911"
+            android:textSize="20dp"
+            android:padding="2dp"
+            />
+        <ImageView
+
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/down_arrow"
+            android:rotation="-90"
+            android:backgroundTint="@color/white"
+            />
+        <TextView
+            android:id="@+id/card2TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CARD2"
             android:fontFamily="@font/allerta"
             android:shadowColor="@color/white"
             android:shadowDx="0"

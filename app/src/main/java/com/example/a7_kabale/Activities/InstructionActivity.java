@@ -6,16 +6,20 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.a7_kabale.Other.Sound;
 import com.example.a7_kabale.R;
 
 public class InstructionActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Button nextBtn;
+    Sound sound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_instruction);
+        sound = new Sound(getApplicationContext());
 
         nextBtn = (Button) findViewById(R.id.instructionNextBtn);
 
@@ -26,7 +30,8 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         if(v.equals(nextBtn)) {
-//            Intent i = new Intent(this, ScannerActivity.class);
+            sound.playShuffle();
+            //Intent i = new Intent(this, ScannerActivity.class);
             Intent i = new Intent(this, MoveActivity.class);
             startActivity(i);
         }

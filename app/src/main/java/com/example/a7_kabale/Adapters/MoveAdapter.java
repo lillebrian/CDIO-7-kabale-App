@@ -1,5 +1,6 @@
 package com.example.a7_kabale.Adapters;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,29 +9,29 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.a7_kabale.Items.MoveItem;
+import com.example.a7_kabale.Logic.Card;
 import com.example.a7_kabale.R;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 
 public class MoveAdapter extends RecyclerView.Adapter<MoveAdapter.MoveItemViewHolder> {
 
-    private ArrayList<MoveItem> items;
+    private LinkedList<Card> items;
 
     public static class MoveItemViewHolder extends RecyclerView.ViewHolder {
-        public TextView pointsTV;
-        public TextView moveTV;
+        public TextView card1;
+        public TextView card2;
+        public TextView moveIndex;
         public MoveItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            pointsTV = itemView.findViewById(R.id.movePoints);
-            moveTV = itemView.findViewById(R.id.moveInfo);
+            card1 = itemView.findViewById(R.id.card1TV);
+            card2 = itemView.findViewById(R.id.card2TV);
+            moveIndex = itemView.findViewById(R.id.moveIndex);
         }
     }
 
-    public MoveAdapter(ArrayList<MoveItem> items) {
+    public MoveAdapter(LinkedList<Card> items) {
         this.items = items;
     }
 
@@ -41,15 +42,24 @@ public class MoveAdapter extends RecyclerView.Adapter<MoveAdapter.MoveItemViewHo
         return new MoveItemViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull MoveItemViewHolder holder, int position) {
-        MoveItem currentItem = items.get(position);
-        holder.pointsTV.setText(String.valueOf(currentItem.getPoint()));
-        holder.moveTV.setText(currentItem.getMove());
+        Card currentItem;
+        try {
+            int offset = 2;
+            holder.moveIndex.setText("Move " + (position+1));
+            currentItem = items.get(position*offset);
+            holder.card1.setText(currentItem.getFaceValue() + "" + currentItem.getType());
+            currentItem = items.get(position*offset+1);
+            holder.card2.setText(currentItem.getFaceValue() + "" + currentItem.getType());
+        } catch (IndexOutOfBoundsException e) {
+
+        }
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return items.size()/2;
     }
 }
