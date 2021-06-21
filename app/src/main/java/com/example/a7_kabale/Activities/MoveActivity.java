@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.a7_kabale.Adapters.MoveAdapter;
-import com.example.a7_kabale.Items.MoveItem;
 import com.example.a7_kabale.Logic.AppController;
 import com.example.a7_kabale.Logic.Card;
 import com.example.a7_kabale.R;
@@ -31,7 +30,7 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
     ArrayList<String> resultDeck;
     ArrayList<String> resultTurnedCards;
     AppController logic;
-    ArrayList<MoveItem> moves;
+    LinkedList<Card> moves = new LinkedList<>();
     Button nextStep;
 
     private RecyclerView moveRecyclerView;
@@ -45,11 +44,14 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView title = findViewById(R.id.moveTitle);
         nextStep = findViewById(R.id.nextStepButton);
-        moves.add(new MoveItem(7.1f, "♥️6 → ♠️7" ));
-        moves.add(new MoveItem(4.3f, "♥️Q → ♣️️K" ));
-        moves.add(new MoveItem(2.0f, "♠2️ → ️♦️7" ));
-        moves.add(new MoveItem(1.0f, "Draw" ));
-
+        moves.add(new Card(true, 7, 2));
+        moves.add(new Card(true, 6, 0));
+        moves.add(new Card(true, 5, 3));
+        moves.add(new Card(true, 4, 1));
+        moves.add(new Card(true, 12, 1));
+        moves.add(new Card(true,13 , 2));
+        moves.add(new Card(true, 2, 1));
+        moves.add(new Card(true, 3, 2));
         moveRecyclerView = findViewById(R.id.moveRecyclerView);
         moveRecyclerView.setHasFixedSize(true);
         recyclerViewManager = new LinearLayoutManager(this);
