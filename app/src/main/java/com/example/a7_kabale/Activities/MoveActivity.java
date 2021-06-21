@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.a7_kabale.Adapters.MoveAdapter;
 import com.example.a7_kabale.Logic.AppController;
 import com.example.a7_kabale.Logic.Card;
+import com.example.a7_kabale.Other.Sound;
 import com.example.a7_kabale.R;
 
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
     AppController logic;
     LinkedList<Card> moves = new LinkedList<>();
     Button nextStep;
+    Sound sound;
 
     private RecyclerView moveRecyclerView;
     private RecyclerView.Adapter moveAdapter;
@@ -41,6 +43,8 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_move);
+
+        sound = new Sound(getApplicationContext());
 
         TextView title = findViewById(R.id.moveTitle);
         nextStep = findViewById(R.id.nextStepButton);
@@ -98,7 +102,7 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         //Move have been performed by player and is ready to continue to next move
         Intent i = new Intent(this, ScannerActivity.class);
-
+        sound.playRandomSwipe();
         /* Starting intent to scan the 7 cards from the buildstacks */
         i.putExtra("amount", 7);
         startActivityForResult(i, LAUNCH_STACK);

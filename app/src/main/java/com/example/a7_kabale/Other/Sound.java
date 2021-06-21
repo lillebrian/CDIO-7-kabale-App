@@ -1,5 +1,6 @@
 package com.example.a7_kabale.Other;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.view.View;
 import com.example.a7_kabale.R;
@@ -17,11 +18,11 @@ public class Sound extends AppCompatActivity {
     MediaPlayer swipe3;
     MediaPlayer shuffle;
 
-    public Sound(View view) {
-        MediaPlayer swipe1 = MediaPlayer.create(view.getContext(), R.raw.cardswipe1);
-        MediaPlayer swipe2 = MediaPlayer.create(view.getContext(), R.raw.cardswipe2);
-        MediaPlayer swipe3 = MediaPlayer.create(view.getContext(), R.raw.cardswipe3);
-        MediaPlayer shuffle = MediaPlayer.create(view.getContext(), R.raw.cardshuffle);
+    public Sound(Context context) {
+        this.swipe1 = MediaPlayer.create(context, R.raw.cardswipe1);
+        this.swipe2 = MediaPlayer.create(context, R.raw.cardswipe2);
+        this.swipe3 = MediaPlayer.create(context, R.raw.cardswipe3);
+        this.shuffle = MediaPlayer.create(context, R.raw.cardshuffle);
     }
 
     public void playRandomSwipe() {

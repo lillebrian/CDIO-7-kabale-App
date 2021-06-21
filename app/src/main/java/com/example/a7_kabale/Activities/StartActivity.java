@@ -24,7 +24,7 @@ public class StartActivity extends AppCompatActivity implements Button.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-        //sound = new Sound(getWindow().getDecorView().getRootView());
+        sound = new Sound(getApplicationContext());
         startBtn = (Button) findViewById(R.id.startBtn);
         aboutBtn = (Button) findViewById(R.id.aboutBtn);
 
@@ -37,12 +37,12 @@ public class StartActivity extends AppCompatActivity implements Button.OnClickLi
     @Override
     public void onClick(View v) {
         if (v.equals(startBtn)) {
+            sound.playRandomSwipe();
             Intent i = new Intent(this, InstructionActivity.class);
-            //sound.playRandomSwipe();
             startActivity(i);
         } else if(aboutBtn.equals(v)) {
+            sound.playRandomSwipe();
             Intent i = new Intent(this, AboutActivity.class);
-            //sound.playRandomSwipe();
             startActivity(i);
         }
     }
