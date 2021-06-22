@@ -46,34 +46,32 @@ public class Logic {
 
     /*The method called to run the algorithm */
     public void run() {
-        listOfMoves = new ArrayList<>();
-        Move move = new Move();
-        absoluteMax = new Move();
-        absoluteMax.point = -1;
-        try {
-            checkForMoves(move, buildStackHolder, talons, suits, 0);
-        } catch (Exception e) {
-            if(!e.getMessage().equals("win"))
-                return;
-        }
-        if (absoluteMax.moveList.size() == 0 && counter++ > 3){
-            System.out.println("No solution :(");
-            return;
-        }
-
-        String testString = "Max: " + absoluteMax;
-        System.out.println(testString);
-        //For testing purposes Only!
-//        if ( testString.equals("Max: Move{ 10 points [Card{9♣️}, Card{10♥️}, Card{8♥️}, Card{9♣️}, Card{6♠️}, Card{7♥️}, Card{5♥️}, Card{6♠️}, Card{4♣️}, Card{5♥️}, Card{0?}, Card{0?}, Card{0?}, Card{0?}]}"))
-//            System.out.println("yayet");
-        performPermanentMoves(absoluteMax);
-//        insertEmpties();
-        turnUnknownCard();
         if (winnable) {
             finishUp();
         }
-        else
-            run();
+        else {
+            listOfMoves = new ArrayList<>();
+            Move move = new Move();
+            absoluteMax = new Move();
+            absoluteMax.point = -1;
+            try {
+                checkForMoves(move, buildStackHolder, talons, suits, 0);
+            } catch (Exception e) {
+                if (!e.getMessage().equals("win"))
+                    return;
+            }
+            if (absoluteMax.moveList.size() == 0 && counter++ > 3) {
+                System.out.println("No solution :(");
+                return;
+            }
+
+            String testString = "Max: " + absoluteMax;
+            System.out.println(testString);
+            //For testing purposes Only!
+//        if ( testString.equals("Max: Move{ 10 points [Card{9♣️}, Card{10♥️}, Card{8♥️}, Card{9♣️}, Card{6♠️}, Card{7♥️}, Card{5♥️}, Card{6♠️}, Card{4♣️}, Card{5♥️}, Card{0?}, Card{0?}, Card{0?}, Card{0?}]}"))
+//            System.out.println("yayet");
+            performPermanentMoves(absoluteMax);
+        }
     }
 
 
@@ -366,7 +364,8 @@ public class Logic {
                 move = temp;
 
             performSimMove(move, buildStackHolder, talons, suits);
-            turnUnknownCard();
+            if (checkForUnturnedCards(buildStackHolder.getStackList(), move))
+                return;
         }
 
         System.out.println(move.toString());

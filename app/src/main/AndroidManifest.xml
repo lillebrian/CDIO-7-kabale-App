@@ -68,7 +68,8 @@
         </activity>
         <activity
             android:name=".Activities.ScannerActivity"
-            android:configChanges="screenSize|orientation|screenLayout|navigation">
+            android:screenOrientation="portrait">
+            //android:configChanges="screenSize|orientation|screenLayout|navigation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

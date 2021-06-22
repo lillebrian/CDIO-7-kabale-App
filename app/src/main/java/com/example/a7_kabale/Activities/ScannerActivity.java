@@ -8,6 +8,7 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.Matrix;
 import android.os.Build;
@@ -48,8 +49,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**@Author Mikkel Johansen, s175194 */
 public class ScannerActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
@@ -57,10 +60,12 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
     Context whoAmI = this;
     //defines list to contains scannedCards, their confidentiality levels and a list over all the
     // card names ordered in the same way as the class id's
-    ArrayList<String> scannedCards = new ArrayList<>();
-    ArrayList<Float> scannedCardsConf = new ArrayList<>();
-    List<ImageView> cardViews = new ArrayList<>();
-    List<String> cardNames = Arrays.asList("1h","13h","12h","11h","10h","9h","8h","7h","6h","5h","4h",
+    private SharedPreferences savedVars;
+    private ArrayList<String> scannedCards = new ArrayList<>();
+    private Set<String> alreadyScanned = new HashSet<>();
+    private ArrayList<Float> scannedCardsConf = new ArrayList<>();
+    private List<ImageView> cardViews = new ArrayList<>();
+    private List<String> cardNames = Arrays.asList("1h","13h","12h","11h","10h","9h","8h","7h","6h","5h","4h",
             "3h","2h","1d","13d","12d","11d","10d","9d","8d","7d","6d","5d","4d","3d","2d",
             "1c","13c","12c","11c","10c","9c","8c","7c","6c","5c","4c","3c","2c","1s","13s",
             "12s","11s","10s","9s","8s","7s","6s","5s","4s","3s","2s");
@@ -110,8 +115,13 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
         ConstraintLayout constraintLayout = findViewById(R.id.scannerConstraint);
         ConstraintSet constraintSet = new ConstraintSet();
         constraintSet.clone(constraintLayout);
+        savedVars = getSharedPreferences("SavedCards", MODE_PRIVATE);
+        alreadyScanned = savedVars.getStringSet("Cards", new HashSet<>());
+
+
         int cardsToScan = getIntent().getIntExtra("amount", 0);
 //        RelativeLayout cardHolder = findViewById(R.id.cardViewer);
+
         for (int i = 0; i < cardsToScan; i++) {
             ImageView image = new ImageView(getApplicationContext());
             image.setContentDescription(String.valueOf(i));
@@ -292,7 +302,7 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
                     //Draws an rectangle around the recognized area
                     Imgproc.rectangle(frame, box.tl(), box.br(), new Scalar(255, 0, 0), 2);
                     //check if the recognized card is a already recognized card
-                    if (!scannedCards.contains(name)) {
+                    if (!scannedCards.contains(name) && !alreadyScanned.contains(name)) {
                         //removes the index from the queue
                         int queueIndex = queue.poll();
                         //inserts the card name into the list of scanned cards
@@ -303,6 +313,9 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
 //                            finishUp();
                             Intent returnIntent = new Intent();
                             returnIntent.putStringArrayListExtra("result", new ArrayList<>(scannedCards));
+                            alreadyScanned.addAll(scannedCards);
+                            Set<String> set = (Set<String>) alreadyScanned;
+                            savedVars.edit().putStringSet("Cards", set).commit();
                             setResult(this.RESULT_OK, returnIntent);
                             finish();
                         }
@@ -366,8 +379,12 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                cardViews.get(index).setImageResource(getResources().getIdentifier("cards_"+name.toLowerCase(), "drawable", getPackageName()));
-                cardViews.get(queue.peekFirst()).setImageResource(R.drawable.cards_back_red);
+                try {
+                    cardViews.get(index).setImageResource(getResources().getIdentifier("cards_"+name.toLowerCase(), "drawable", getPackageName()));
+                    cardViews.get(queue.peekFirst()).setImageResource(R.drawable.cards_back_red);
+                }
+                catch (Exception ignore){};
+
             }
         });
 

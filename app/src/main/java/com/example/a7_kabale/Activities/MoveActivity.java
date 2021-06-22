@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.example.a7_kabale.Adapters.MoveAdapter;
 import com.example.a7_kabale.Logic.AppController;
 import com.example.a7_kabale.Logic.Card;
+import com.example.a7_kabale.Logic.Logic;
 import com.example.a7_kabale.Other.Sound;
 import com.example.a7_kabale.R;
 
@@ -22,10 +24,10 @@ import java.util.LinkedList;
 
 public class MoveActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private SharedPreferences savedVars;
+
     int LAUNCH_STACK = 0;
-    int LAUNCH_DECK = 0;
-    int LAUNCH_CHECK = 0;
+    int LAUNCH_DECK = 1;
+    int LAUNCH_CHECK = 2;
     ArrayList<String> resultStacks;
     ArrayList<String> resultDeck;
     AppController logic;
@@ -33,6 +35,7 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
     Button nextStep;
     Sound sound;
     TextView instruct;
+    Context context;
 
     private RecyclerView moveRecyclerView;
     private RecyclerView.Adapter moveAdapter;
@@ -40,10 +43,12 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        context = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_move);
-
+        this.deleteSharedPreferences("SavedCards");
         sound = new Sound(getApplicationContext());
+        logic = new AppController();
 
         instruct = findViewById(R.id.instructBestMove);
         instruct.setText("The sequence of best moves will be showed here when cards have been scanned. ");
@@ -64,11 +69,6 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
         moveRecyclerView.setAdapter(moveAdapter);
 
         nextStep.setOnClickListener(this);
-        //Logic Initialised
-
-        savedVars = getSharedPreferences("Results", MODE_PRIVATE);
-        int inter = savedVars.getInt("inter", 0);
-        System.out.println(inter);
     }
 
     @Override
@@ -79,18 +79,6 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        savedVars = getSharedPreferences("Results", MODE_PRIVATE);
-        int inter = savedVars.getInt("inter", 0);
-        System.out.println(inter);
-        //Call for empty cards check!
-            //If empty cards attempt to Send in cards
-            //else
-                //Call to Run algorithm
-                //Call fo empty cards check!
-                //if empty cards call the scanner
-                //else
-                //Check for if Won
-        //
     }
 
     @Override
@@ -119,43 +107,36 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == LAUNCH_STACK) {
-            if(resultCode == this.RESULT_OK){
+            if (resultCode == this.RESULT_OK) {
                 resultStacks = data.getStringArrayListExtra("result");
                 System.out.println(resultStacks);
 
                 /* Launching intent to scan the 24 cards for the deck */
-                Intent i = new Intent(this, ScannerActivity.class);
-                i.putExtra("amount", 24);
+                Intent i = new Intent(context, ScannerActivity.class);
+                i.putExtra("amount", 2);
                 startActivityForResult(i, LAUNCH_DECK);
             }
-            if (resultCode == this.RESULT_CANCELED) {
-                // Write your code if there's no result
-            }
-        }
-
-        if (requestCode == LAUNCH_DECK) {
-            if(resultCode == this.RESULT_OK) {
+        } else if (requestCode == LAUNCH_DECK) {
+            if (resultCode == this.RESULT_OK) {
                 resultDeck = data.getStringArrayListExtra("result");
                 System.out.println(resultDeck);
 
                 logic.RunAlgorithm(resultStacks, resultDeck);
                 extractMovesToScreen(logic.returnBestMoves());
 
-                Intent i = new Intent(this, ScannerActivity.class);
+                Intent i = new Intent(context, ScannerActivity.class);
                 if (logic.cardsToTurn() != 0) {
                     i.putExtra("amount", logic.cardsToTurn());
                     startActivityForResult(i, LAUNCH_CHECK);
                 }
             }
-        }
-
-        if (requestCode == LAUNCH_CHECK) {
-            if(resultCode == this.RESULT_OK) {
+        } else if (requestCode == LAUNCH_CHECK) {
+            if (resultCode == this.RESULT_OK) {
 
                 logic.RunAlgorithm(data.getStringArrayListExtra("result"));
                 extractMovesToScreen(logic.returnBestMoves());
 
-                Intent i = new Intent(this, ScannerActivity.class);
+                Intent i = new Intent(context, ScannerActivity.class);
                 nextStep.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -167,6 +148,7 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
                 });
             }
         }
+
     }
 
     public void extractMovesToScreen(LinkedList<Card> cards) {

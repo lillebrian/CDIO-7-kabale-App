@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class AppController {
-    Logic logic = new Logic();
+    Logic logic;
+
+    public AppController () {
+        logic = new Logic();
+    }
 
     public void RunAlgorithm(ArrayList<String> initialStackCards, ArrayList<String> initialDeckCards) {
         logic.setUpApp(logic.listStringToCard(initialStackCards), logic.listStringToCard(initialDeckCards));
