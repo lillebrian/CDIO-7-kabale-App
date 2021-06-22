@@ -10,7 +10,7 @@
     <string name="title_activity_scanner">ScannerActivity</string>
     <string name="title_activity_about">AboutActivity</string>
     <string name="card">card</string>
-    <string name="move_Activity_Title">Possible Moves</string>
+    <string name="move_Activity_Title">Best moves</string>
 
     <style name="Divider">
         <item name="android:layout_width">200dp</item>

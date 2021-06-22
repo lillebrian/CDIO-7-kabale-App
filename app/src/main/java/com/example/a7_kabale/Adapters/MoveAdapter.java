@@ -50,9 +50,9 @@ public class MoveAdapter extends RecyclerView.Adapter<MoveAdapter.MoveItemViewHo
             int offset = 2;
             holder.moveIndex.setText("Move " + (position+1));
             currentItem = items.get(position*offset);
-            holder.card1.setText(currentItem.getFaceValue() + "" + currentItem.getType());
+            holder.card1.setText(currentItem.toString());
             currentItem = items.get(position*offset+1);
-            holder.card2.setText(currentItem.getFaceValue() + "" + currentItem.getType());
+            holder.card2.setText(currentItem.toString());
         } catch (IndexOutOfBoundsException e) {
 
         }
