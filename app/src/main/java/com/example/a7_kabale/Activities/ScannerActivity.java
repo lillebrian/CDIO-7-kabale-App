@@ -117,16 +117,6 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
         int cardsToScan = getIntent().getIntExtra("amount", 0);
 //        RelativeLayout cardHolder = findViewById(R.id.cardViewer);
 
-        //request for camera permission
-        if(ContextCompat.checkSelfPermission(ScannerActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
-            //directly ask for the permissions
-            ActivityCompat.requestPermissions(ScannerActivity.this,new  String[]{
-                    Manifest.permission.CAMERA
-            },100);
-        }
-
-
-
         for (int i = 0; i < cardsToScan; i++) {
             ImageView image = new ImageView(getApplicationContext());
             image.setContentDescription(String.valueOf(i));

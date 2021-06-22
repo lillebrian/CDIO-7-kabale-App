@@ -1,12 +1,16 @@
 package com.example.a7_kabale.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -71,6 +75,14 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
         savedVars = getSharedPreferences("Results", MODE_PRIVATE);
         int inter = savedVars.getInt("inter", 0);
         System.out.println(inter);
+
+        //request for camera permission
+        if(ContextCompat.checkSelfPermission(MoveActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
+            //directly ask for the permissions
+            ActivityCompat.requestPermissions(MoveActivity.this,new  String[]{
+                    Manifest.permission.CAMERA
+            },100);
+        }
     }
 
     @Override
