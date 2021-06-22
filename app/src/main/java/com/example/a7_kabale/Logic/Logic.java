@@ -77,7 +77,7 @@ public class Logic {
             //For testing purposes Only!
 //        if ( testString.equals("Max: Move{ 10 points [Card{9♣️}, Card{10♥️}, Card{8♥️}, Card{9♣️}, Card{6♠️}, Card{7♥️}, Card{5♥️}, Card{6♠️}, Card{4♣️}, Card{5♥️}, Card{0?}, Card{0?}, Card{0?}, Card{0?}]}"))
 //            System.out.println("yayet");
-            performPermanentMoves(absoluteMax);
+            performPermanentMoves(absoluteMax.clone());
         }
     }
 

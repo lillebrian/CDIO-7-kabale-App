@@ -69,19 +69,17 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
         moveRecyclerView = findViewById(R.id.moveRecyclerView);
         moveRecyclerView.setHasFixedSize(true);
         recyclerViewManager = new LinearLayoutManager(this);
-        moveAdapter = new MoveAdapter(moves);
-        moveRecyclerView.setLayoutManager(recyclerViewManager);
-        moveRecyclerView.setAdapter(moveAdapter);
+
 
         nextStep.setOnClickListener(this);
         //Logic Initialised
 
         //request for camera permission
-        if(ContextCompat.checkSelfPermission(MoveActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
+        if (ContextCompat.checkSelfPermission(MoveActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
             //directly ask for the permissions
-            ActivityCompat.requestPermissions(MoveActivity.this,new  String[]{
+            ActivityCompat.requestPermissions(MoveActivity.this, new String[]{
                     Manifest.permission.CAMERA
-            },100);
+            }, 100);
         }
     }
 
@@ -98,7 +96,7 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        this.deleteSharedPreferences("saveCards");
+        //this.deleteSharedPreferences("saveCards");
         startActivity(new Intent(this, StartActivity.class));
     }
 
@@ -129,7 +127,7 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
 
                 /* Launching intent to scan the 24 cards for the deck */
                 Intent i = new Intent(context, ScannerActivity.class);
-                i.putExtra("amount", 2);
+                i.putExtra("amount", 24);
                 startActivityForResult(i, LAUNCH_DECK);
             }
         } else if (requestCode == LAUNCH_DECK) {
@@ -140,39 +138,46 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
                 logic.RunAlgorithm(resultStacks, resultDeck);
                 extractMovesToScreen(logic.returnBestMoves());
 
-                Intent i = new Intent(context, ScannerActivity.class);
-                if (logic.cardsToTurn() != 0) {
-                    i.putExtra("amount", logic.cardsToTurn());
-                    startActivityForResult(i, LAUNCH_CHECK);
-                }
+                nextStep.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(context, ScannerActivity.class);
+                        i.putExtra("amount", logic.cardsToTurn());
+                        startActivityForResult(i, LAUNCH_CHECK);
+
+                    }
+                });
+
             }
         } else if (requestCode == LAUNCH_CHECK) {
             if (resultCode == this.RESULT_OK) {
 
+                do {
+
+
                 logic.RunAlgorithm(data.getStringArrayListExtra("result"));
 
-                if(logic.isWon()) {
+                if (logic.isWon()) {
                     instruct.setText("Congratulations! The algorithm solved the game.");
                     nextStep.setOnClickListener(v -> {
                         this.onDestroy();
                     });
-                }
-                else if (logic.isLost()) {
+                } else if (logic.isLost()) {
                     instruct.setText("Couldn't be solved by our algorithm >:(");
                     nextStep.setOnClickListener(v -> {
                         this.onDestroy();
                     });
                 } else
                     extractMovesToScreen(logic.returnBestMoves());
-
+                }
+                while (logic.cardsToTurn() == 0);
                 Intent i = new Intent(context, ScannerActivity.class);
+                moves = new LinkedList<Card>();
                 nextStep.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (logic.cardsToTurn() != 0) {
-                            i.putExtra("amount", logic.cardsToTurn());
-                            startActivityForResult(i, LAUNCH_CHECK);
-                        }
+                        i.putExtra("amount", logic.cardsToTurn());
+                        startActivityForResult(i, LAUNCH_CHECK);
                     }
                 });
             }
@@ -182,5 +187,9 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
 
     public void extractMovesToScreen(LinkedList<Card> cards) {
         moves.addAll(cards);
+        moveAdapter = new MoveAdapter(moves);
+        moveRecyclerView.setLayoutManager(recyclerViewManager);
+        moveRecyclerView.setAdapter(moveAdapter);
+
     }
 }

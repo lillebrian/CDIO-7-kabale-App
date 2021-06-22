@@ -14,6 +14,14 @@ public class Move {
         this.moveListSim = new LinkedList<>();
     }
 
+    public Move clone() {
+        Move temp = new Move();
+        temp.point = this.point;
+        temp.moveList.addAll(this.moveList);
+        temp.moveListSim.addAll(this.moveListSim);
+        return temp;
+    }
+
     public Move addMove(int points, Card card1, Card card2) {
         Move move = new Move();
         move.point = point + points;

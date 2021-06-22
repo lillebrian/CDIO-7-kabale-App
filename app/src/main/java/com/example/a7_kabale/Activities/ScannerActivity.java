@@ -306,7 +306,7 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
                     //Draws an rectangle around the recognized area
                     Imgproc.rectangle(frame, box.tl(), box.br(), new Scalar(255, 0, 0), 2);
                     //check if the recognized card is a already recognized card
-                    if (!scannedCards.contains(name) && !alreadyScanned.contains(name)) {
+                    if (!scannedCards.contains(name) && !alreadyScanned.contains(name) && queue.peekFirst() != null) {
                         //removes the index from the queue
                         int queueIndex = queue.poll();
                         //inserts the card name into the list of scanned cards

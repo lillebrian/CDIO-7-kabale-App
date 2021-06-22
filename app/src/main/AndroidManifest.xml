@@ -35,7 +35,8 @@
         android:screenOrientation="landscape"
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.NoActionBar">
-        <activity android:name=".Activities.MoveActivity" />
+        <activity android:name=".Activities.MoveActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.StartActivity"
             android:label="@string/title_activity_start"
@@ -76,7 +77,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
