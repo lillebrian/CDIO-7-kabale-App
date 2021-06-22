@@ -34,7 +34,6 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
     Button nextStep;
     Sound sound;
     TextView instruct;
-    Context context;
 
     private RecyclerView moveRecyclerView;
     private RecyclerView.Adapter moveAdapter;
