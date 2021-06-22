@@ -4,10 +4,14 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.graphics.Matrix;
 import android.os.Build;
@@ -112,6 +116,7 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
         constraintSet.clone(constraintLayout);
         int cardsToScan = getIntent().getIntExtra("amount", 0);
 //        RelativeLayout cardHolder = findViewById(R.id.cardViewer);
+
         for (int i = 0; i < cardsToScan; i++) {
             ImageView image = new ImageView(getApplicationContext());
             image.setContentDescription(String.valueOf(i));
@@ -402,4 +407,5 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
         setResult(this.RESULT_OK, returnIntent);
         finish();
     }
+
 }
