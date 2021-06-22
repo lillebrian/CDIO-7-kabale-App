@@ -117,6 +117,6 @@ public class Card {
     //standard to string method
     @Override
     public String toString() {
-        return "Card{" + faceValue + type.getString() + '}';
+        return faceValue + type.getString();
     }
 }

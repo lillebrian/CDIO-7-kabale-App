@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -26,14 +27,14 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
     int LAUNCH_STACK = 0;
     int LAUNCH_DECK = 0;
     int LAUNCH_CHECK = 0;
-    int LAUNCH_SECOND_ACTIVITY = 1;
     ArrayList<String> resultStacks;
     ArrayList<String> resultDeck;
-    ArrayList<String> resultTurnedCards;
     AppController logic;
     LinkedList<Card> moves = new LinkedList<>();
     Button nextStep;
     Sound sound;
+    TextView instruct;
+    Context context;
 
     private RecyclerView moveRecyclerView;
     private RecyclerView.Adapter moveAdapter;
@@ -46,16 +47,17 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
 
         sound = new Sound(getApplicationContext());
 
-        TextView title = findViewById(R.id.moveTitle);
+        instruct = findViewById(R.id.instructBestMove);
+        instruct.setText("The sequence of best moves will be showed here when cards have been scanned. ");
         nextStep = findViewById(R.id.nextStepButton);
-        moves.add(new Card(true, 7, 2));
-        moves.add(new Card(true, 6, 0));
-        moves.add(new Card(true, 5, 3));
-        moves.add(new Card(true, 4, 1));
-        moves.add(new Card(true, 12, 1));
-        moves.add(new Card(true,13 , 2));
-        moves.add(new Card(true, 2, 1));
-        moves.add(new Card(true, 3, 2));
+//        moves.add(new Card(true, 7, 2));
+//        moves.add(new Card(true, 6, 0));
+//        moves.add(new Card(true, 5, 3));
+//        moves.add(new Card(true, 4, 1));
+//        moves.add(new Card(true, 12, 1));
+//        moves.add(new Card(true,13 , 2));
+//        moves.add(new Card(true, 2, 1));
+//        moves.add(new Card(true, 3, 2));
         moveRecyclerView = findViewById(R.id.moveRecyclerView);
         moveRecyclerView.setHasFixedSize(true);
         recyclerViewManager = new LinearLayoutManager(this);
@@ -96,6 +98,8 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        this.deleteSharedPreferences("saveCards");
+        startActivity(new Intent(this, StartActivity.class));
     }
 
     @Override
@@ -103,6 +107,7 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
         //Move have been performed by player and is ready to continue to next move
         Intent i = new Intent(this, ScannerActivity.class);
         sound.playRandomSwipe();
+        instruct.setText("");
         /* Starting intent to scan the 7 cards from the buildstacks */
         i.putExtra("amount", 7);
         startActivityForResult(i, LAUNCH_STACK);
@@ -138,6 +143,7 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
                 System.out.println(resultDeck);
 
                 logic.RunAlgorithm(resultStacks, resultDeck);
+                extractMovesToScreen(logic.returnBestMoves());
 
                 Intent i = new Intent(this, ScannerActivity.class);
                 if (logic.cardsToTurn() != 0) {
@@ -149,9 +155,22 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
 
         if (requestCode == LAUNCH_CHECK) {
             if(resultCode == this.RESULT_OK) {
+
                 logic.RunAlgorithm(data.getStringArrayListExtra("result"));
 
-                extractMovesToScreen(logic.returnBestMoves());
+                if(logic.isWon()) {
+                    instruct.setText("Congratulations! The algorithm solved the game.");
+                    nextStep.setOnClickListener(v -> {
+                        this.onDestroy();
+                    });
+                }
+                else if (logic.isLost()) {
+                    instruct.setText("Couldn't be solved by our algorithm >:(");
+                    nextStep.setOnClickListener(v -> {
+                        this.onDestroy();
+                    });
+                } else
+                    extractMovesToScreen(logic.returnBestMoves());
 
                 Intent i = new Intent(this, ScannerActivity.class);
                 nextStep.setOnClickListener(new View.OnClickListener() {
@@ -168,7 +187,6 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void extractMovesToScreen(LinkedList<Card> cards) {
-        ArrayList<Card> temp = new ArrayList<>(cards);
-
+        moves.addAll(cards);
     }
 }

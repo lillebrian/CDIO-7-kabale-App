@@ -26,4 +26,12 @@ public class AppController {
         return logic.amountOfUnturnedCards();
     }
 
+    public boolean isWon() {
+        return logic.suits.suitFinished();
+    }
+
+    public boolean isLost() {
+        return logic.isLost();
+    }
+
 }
