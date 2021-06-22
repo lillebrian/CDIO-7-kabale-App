@@ -4,10 +4,14 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.Matrix;
@@ -419,4 +423,5 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
         setResult(this.RESULT_OK, returnIntent);
         finish();
     }
+
 }

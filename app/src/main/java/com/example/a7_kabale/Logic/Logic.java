@@ -24,6 +24,13 @@ public class Logic {
     ArrayList<Card> remainingCards = new ArrayList<>();
     Random rn = new Random();
     int counter = 0;
+
+
+    boolean lost = false;
+    public boolean isLost() {
+        return lost;
+    }
+
     Move absoluteMax;
 
 
@@ -500,4 +507,7 @@ public class Logic {
     public LinkedList<Card> getAbsoluteBestMoves() {
         return absoluteMax.getMoveList();
     }
+
+
+
 }
