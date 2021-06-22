@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
     Button nextStep;
     Sound sound;
     TextView instruct;
+    Context context;
 
     private RecyclerView moveRecyclerView;
     private RecyclerView.Adapter moveAdapter;
@@ -96,6 +98,8 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        this.deleteSharedPreferences("saveCards");
+        startActivity(new Intent(this, StartActivity.class));
     }
 
     @Override
@@ -153,7 +157,20 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
             if(resultCode == this.RESULT_OK) {
 
                 logic.RunAlgorithm(data.getStringArrayListExtra("result"));
-                extractMovesToScreen(logic.returnBestMoves());
+
+                if(logic.isWon()) {
+                    instruct.setText("Congratulations! The algorithm solved the game.");
+                    nextStep.setOnClickListener(v -> {
+                        this.onDestroy();
+                    });
+                }
+                else if (logic.isLost()) {
+                    instruct.setText("Couldn't be solved by our algorithm >:(");
+                    nextStep.setOnClickListener(v -> {
+                        this.onDestroy();
+                    });
+                } else
+                    extractMovesToScreen(logic.returnBestMoves());
 
                 Intent i = new Intent(this, ScannerActivity.class);
                 nextStep.setOnClickListener(new View.OnClickListener() {
