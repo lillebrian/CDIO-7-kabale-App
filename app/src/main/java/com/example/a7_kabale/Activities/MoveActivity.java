@@ -56,7 +56,7 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
         logic = new AppController();
 
         instruct = findViewById(R.id.instructBestMove);
-        instruct.setText("The sequence of best moves will be showed here when cards have been scanned. ");
+        instruct.setText("The sequence of best moves will be shown here after the cards have been scanned.");
         nextStep = findViewById(R.id.nextStepButton);
 //        moves.add(new Card(true, 7, 2));
 //        moves.add(new Card(true, 6, 0));
@@ -64,11 +64,20 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
 //        moves.add(new Card(true, 4, 1));
 //        moves.add(new Card(true, 12, 1));
 //        moves.add(new Card(true,13 , 2));
-//        moves.add(new Card(true, 2, 1));
-//        moves.add(new Card(true, 3, 2));
+
         moveRecyclerView = findViewById(R.id.moveRecyclerView);
-        moveRecyclerView.setHasFixedSize(true);
         recyclerViewManager = new LinearLayoutManager(this);
+        moveAdapter = new MoveAdapter(moves);
+        moveRecyclerView.setLayoutManager(recyclerViewManager);
+        moveRecyclerView.setAdapter(moveAdapter);
+
+        moveRecyclerView.setHasFixedSize(true);
+        moveRecyclerView.setNestedScrollingEnabled(true);
+
+
+
+
+
 
 
         nextStep.setOnClickListener(this);
