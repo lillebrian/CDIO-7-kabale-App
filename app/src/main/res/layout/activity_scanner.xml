@@ -14,43 +14,54 @@
         android:background="#00FFFFFF"
         android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/cardViewer"
+        <HorizontalScrollView
+            android:id="@+id/cardViewerScroll"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@drawable/background_gradient"
-            android:clipChildren="false"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="60dp">
+            <LinearLayout
+                android:id="@+id/cardViewer"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:background="@drawable/background_gradient"
+                android:clipChildren="false"
+                android:orientation="horizontal"
 
-            <!--        <ImageView-->
-            <!--            android:id="@+id/imageView"-->
-            <!--            android:layout_width="0dp"-->
-            <!--            android:layout_height="50dp"-->
-            <!--            android:layout_weight="1"-->
-            <!--            android:adjustViewBounds="true"-->
-            <!--            android:contentDescription="@string/card"-->
-            <!--            android:visibility="gone"-->
-            <!--            app:srcCompat="@drawable/cards_back"-->
-            <!--            tools:srcCompat="@drawable/cards_back"-->
-            <!--            tools:visibility="visible" />-->
+                android:isScrollContainer="true"
+                android:scrollbars="horizontal"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <!--        <ImageView-->
+                <!--            android:id="@+id/imageView"-->
+                <!--            android:layout_width="0dp"-->
+                <!--            android:layout_height="50dp"-->
+                <!--            android:layout_weight="1"-->
+                <!--            android:adjustViewBounds="true"-->
+                <!--            android:contentDescription="@string/card"-->
+                <!--            android:visibility="gone"-->
+                <!--            app:srcCompat="@drawable/cards_back"-->
+                <!--            tools:srcCompat="@drawable/cards_back"-->
+                <!--            tools:visibility="visible" />-->
 
 
 
-        </LinearLayout>
+            </LinearLayout>
+        </HorizontalScrollView>
+
 
         <org.opencv.android.JavaCameraView
             android:id="@+id/cameraView"
-            android:layout_below="@+id/cardViewer"
+            android:layout_below="@+id/cardViewerScroll"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardViewer" />
+            app:layout_constraintTop_toBottomOf="@+id/cardViewerScroll" />
     </RelativeLayout>
+
     <Button
         android:id="@+id/Edge_Detection"
         android:layout_width="wrap_content"
@@ -73,7 +84,11 @@
         android:backgroundTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+
+
+        android:clickable="false"
+        android:visibility="invisible"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

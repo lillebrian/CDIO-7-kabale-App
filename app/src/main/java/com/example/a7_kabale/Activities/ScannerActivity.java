@@ -9,7 +9,9 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.SharedPreferences;
@@ -25,6 +27,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
 import android.view.View.OnTouchListener;
 
@@ -94,6 +97,9 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
     boolean firstTimeYolo = false;
     Net tinyYolo;
 
+    /* Dialog */
+    boolean maybe = false;
+
 
     public void Yolo(View button){
         startYolo = !startYolo;
@@ -112,7 +118,7 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner);
-
+//        ScrollView cardHolder = findViewById(R.id.cardViewerScroll);
         LinearLayout cardHolder = findViewById(R.id.cardViewer);
         ImageView expandCV = findViewById(R.id.expandCV);
         Button yoloBtn = findViewById(R.id.Edge_Detection);
@@ -123,7 +129,8 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
         alreadyScanned = savedVars.getStringSet("Cards", new HashSet<>());
 
 
-        int cardsToScan = getIntent().getIntExtra("amount", 0);
+//        int cardsToScan = getIntent().getIntExtra("amount", 0);
+        int cardsToScan = 24;
 //        RelativeLayout cardHolder = findViewById(R.id.cardViewer);
 
         for (int i = 0; i < cardsToScan; i++) {
@@ -133,22 +140,28 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
                 image.setImageDrawable(getDrawable(R.drawable.cards_back_red));
             else
                 image.setImageDrawable(getDrawable(R.drawable.cards_back));
-            image.setAdjustViewBounds(true);
+            image.setAdjustViewBounds(true); //was true
             image.setClickable(true);
-            image.setMaxHeight(500);
+            image.setPadding(0, 0, 10, 0);
+            image.setMaxHeight(200);
+
 
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int index = Integer.parseInt(String.valueOf(v.getContentDescription()));
-                    if (queue.contains(index))
-                        return;
-                    ((ImageView) v).setImageResource(R.drawable.cards_back_red);
-                    cardViews.get(queue.peekFirst()).setImageResource(R.drawable.cards_back);
-                    scannedCards.set(index, "");
-                    queue.addFirst(index);
+                    if(showDialog()) {
+                        int index = Integer.parseInt(String.valueOf(v.getContentDescription()));
+                        if (queue.contains(index))
+                            return;
+                        ((ImageView) v).setImageResource(R.drawable.cards_back_red);
+                        cardViews.get(queue.peekFirst()).setImageResource(R.drawable.cards_back);
+                        scannedCards.set(index, "");
+                        queue.addFirst(index);
+                    }
                 }
             });
+
+
 //          Initializes all the different list's that need to contain data
             cardViews.add(image);
             cardHolder.addView(image);
@@ -157,65 +170,65 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
             //Uncomment if you wanna check the confidentiality things get through with
             scannedCardsConf.add(0.0f);
 
+
+            cameraBridgeViewBase = (JavaCameraView) findViewById(R.id.cameraView);
+            cameraBridgeViewBase.setVisibility(SurfaceView.VISIBLE);
+            cameraBridgeViewBase.setCvCameraViewListener(this);
+
+            //System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+            baseLoaderCallback = new BaseLoaderCallback(this) {
+                @Override
+                public void onManagerConnected(int status) {
+                    super.onManagerConnected(status);
+
+                    switch (status) {
+
+                        case BaseLoaderCallback.SUCCESS:
+                            cameraBridgeViewBase.setCameraPermissionGranted();
+                            cameraBridgeViewBase.enableView();
+                            break;
+                        default:
+                            super.onManagerConnected(status);
+                            break;
+                    }
+                }
+            };
+            expandCV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!isExpanded) {
+
+                        cardHolder.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+
+                        constraintSet.connect(R.id.expandCV, ConstraintSet.BOTTOM, R.id.scannerConstraint, ConstraintSet.BOTTOM, 0);
+                        constraintSet.clear(R.id.expandCV, ConstraintSet.TOP);
+                        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) expandCV.getLayoutParams();
+                        params.setMargins(0, 0, 0, 0);
+                        yoloBtn.setVisibility(View.INVISIBLE);
+                        yoloBtn.setVisibility(View.GONE);
+
+                        expandCV.setBackgroundResource(R.drawable.up_arrow);
+
+                        constraintSet.applyTo(constraintLayout);
+                        isExpanded = true;
+                    } else {
+                        final float scale = (getResources().getDisplayMetrics().density);
+
+                        cardHolder.getLayoutParams().height = (int) (60 * scale + 0.5f);
+
+                        constraintSet.clear(R.id.expandCV, ConstraintSet.BOTTOM);
+                        constraintSet.connect(R.id.expandCV, ConstraintSet.TOP, R.id.scannerConstraint, ConstraintSet.TOP, (int) (43 * scale + 0.5f));
+                        yoloBtn.setVisibility(View.VISIBLE);
+
+                        expandCV.setBackgroundResource(R.drawable.down_arrow);
+
+                        constraintSet.applyTo(constraintLayout);
+                        isExpanded = false;
+                    }
+
+                }
+            });
         }
-
-        cameraBridgeViewBase = (JavaCameraView)findViewById(R.id.cameraView);
-        cameraBridgeViewBase.setVisibility(SurfaceView.VISIBLE);
-        cameraBridgeViewBase.setCvCameraViewListener(this);
-
-        //System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-        baseLoaderCallback = new BaseLoaderCallback(this) {
-            @Override
-            public void onManagerConnected(int status) {
-                super.onManagerConnected(status);
-
-                switch(status){
-
-                    case BaseLoaderCallback.SUCCESS:
-                        cameraBridgeViewBase.setCameraPermissionGranted();
-                        cameraBridgeViewBase.enableView();
-                        break;
-                    default:
-                        super.onManagerConnected(status);
-                        break;
-                }
-            }
-        };
-        expandCV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!isExpanded) {
-
-                    cardHolder.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-
-                    constraintSet.connect(R.id.expandCV, ConstraintSet.BOTTOM, R.id.scannerConstraint, ConstraintSet.BOTTOM, 0);
-                    constraintSet.clear(R.id.expandCV, ConstraintSet.TOP);
-                    ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) expandCV.getLayoutParams();
-                    params.setMargins(0,0,0,0);
-                    yoloBtn.setVisibility(View.INVISIBLE);
-                    yoloBtn.setVisibility(View.GONE);
-
-                    expandCV.setBackgroundResource(R.drawable.up_arrow);
-
-                    constraintSet.applyTo(constraintLayout);
-                    isExpanded = true;
-                } else {
-                    final float scale = (getResources().getDisplayMetrics().density);
-
-                    cardHolder.getLayoutParams().height = (int) (60 * scale + 0.5f);
-
-                    constraintSet.clear(R.id.expandCV, ConstraintSet.BOTTOM);
-                    constraintSet.connect(R.id.expandCV, ConstraintSet.TOP, R.id.scannerConstraint, ConstraintSet.TOP, (int)(43 * scale + 0.5f));
-                    yoloBtn.setVisibility(View.VISIBLE);
-
-                    expandCV.setBackgroundResource(R.drawable.down_arrow);
-
-                    constraintSet.applyTo(constraintLayout);
-                    isExpanded = false;
-                }
-
-            }
-        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -424,4 +437,33 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
         finish();
     }
 
+    /** @author Mads s195456*/
+    private boolean showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirm");
+        builder.setMessage("Are you sure you want to remove the selected card?");
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing but close the dialog
+                maybe = true;
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing
+                maybe = false;
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+        return maybe;
+    }
 }
