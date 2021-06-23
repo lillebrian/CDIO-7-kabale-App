@@ -244,7 +244,12 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
             Mat imageBlob = Dnn.blobFromImage(frame, 0.00392, new Size(608, 608), new Scalar(0, 0, 0), false, false);
             if (imageBlob == null)
                 return frame;
-            tinyYolo.setInput(imageBlob);
+            try {
+                tinyYolo.setInput(imageBlob);
+            }catch (Exception ignored) {
+                return frame;
+            }
+
 
             java.util.List<Mat> result = new java.util.ArrayList<Mat>(2);
             List<String> outBlobNames = new java.util.ArrayList<>();
