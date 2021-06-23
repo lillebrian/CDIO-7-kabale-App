@@ -33,8 +33,8 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
     int LAUNCH_STACK = 0;
     int LAUNCH_DECK = 1;
     int LAUNCH_CHECK = 2;
-    ArrayList<String> resultStacks;
-    ArrayList<String> resultDeck;
+    ArrayList<String> resultStacks = new ArrayList<>();
+    ArrayList<String> resultDeck = new ArrayList<>();
     AppController logic;
     LinkedList<Card> moves = new LinkedList<>();
     Button nextStep;
@@ -75,11 +75,6 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
         moveRecyclerView.setNestedScrollingEnabled(true);
 
 
-
-
-
-
-
         nextStep.setOnClickListener(this);
         //Logic Initialised
 
@@ -116,7 +111,8 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
         sound.playRandomSwipe();
         instruct.setText("");
         /* Starting intent to scan the 7 cards from the buildstacks */
-        i.putExtra("amount", 7);
+//        i.putExtra("amount", 7);
+        i.putExtra("amount", 0);
         startActivityForResult(i, LAUNCH_STACK);
     }
 
@@ -131,18 +127,51 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
 
         if (requestCode == LAUNCH_STACK) {
             if (resultCode == this.RESULT_OK) {
-                resultStacks = data.getStringArrayListExtra("result");
-                System.out.println(resultStacks);
-
+//                resultStacks = data.getStringArrayListExtra("result");
+//                System.out.println(resultStacks);
+                //testing purposes
+                resultStacks.add("12c");
+                resultStacks.add("7c");
+                resultStacks.add("1s");
+                resultStacks.add("7s");
+                resultStacks.add("6h");
+                resultStacks.add("10c");
+                resultStacks.add("3c");
                 /* Launching intent to scan the 24 cards for the deck */
                 Intent i = new Intent(context, ScannerActivity.class);
-                i.putExtra("amount", 24);
+//                i.putExtra("amount", 24);
+                i.putExtra("amount", 0);
                 startActivityForResult(i, LAUNCH_DECK);
             }
         } else if (requestCode == LAUNCH_DECK) {
             if (resultCode == this.RESULT_OK) {
-                resultDeck = data.getStringArrayListExtra("result");
-                System.out.println(resultDeck);
+//                resultDeck = data.getStringArrayListExtra("result");
+//                System.out.println(resultDeck);
+                //Testing purposes
+                resultDeck.add("3s");
+                resultDeck.add("11c");
+                resultDeck.add("2s");
+                resultDeck.add("9c");
+                resultDeck.add("13c");
+                resultDeck.add("11s");
+                resultDeck.add("8s");
+                resultDeck.add("4s");
+                resultDeck.add("1d");
+                resultDeck.add("12h");
+                resultDeck.add("7h");
+                resultDeck.add("2h");
+                resultDeck.add("5d");
+                resultDeck.add("6c");
+                resultDeck.add("13d");
+                resultDeck.add("10d");
+                resultDeck.add("9d");
+                resultDeck.add("9h");
+                resultDeck.add("8d");
+                resultDeck.add("11h");
+                resultDeck.add("4d");
+                resultDeck.add("11d");
+                resultDeck.add("1h");
+                resultDeck.add("4h");
 
                 logic.RunAlgorithm(resultStacks, resultDeck);
                 extractMovesToScreen(logic.returnBestMoves());
@@ -162,22 +191,20 @@ public class MoveActivity extends AppCompatActivity implements View.OnClickListe
             if (resultCode == this.RESULT_OK) {
 
                 do {
-
-
-                logic.RunAlgorithm(data.getStringArrayListExtra("result"));
-
-                if (logic.isWon()) {
-                    instruct.setText("Congratulations! The algorithm solved the game.");
-                    nextStep.setOnClickListener(v -> {
-                        this.onDestroy();
-                    });
-                } else if (logic.isLost()) {
-                    instruct.setText("Couldn't be solved by our algorithm >:(");
-                    nextStep.setOnClickListener(v -> {
-                        this.onDestroy();
-                    });
-                } else
-                    extractMovesToScreen(logic.returnBestMoves());
+                    logic.RunAlgorithm(data.getStringArrayListExtra("result"));
+//                if (logic.isWon()) {
+                    if (logic.isWon()) {
+                        instruct.setText("Congratulations! The game is winable now all you have to do is move all the cards into the suit stack 1 by 1, and turn around any cards still facing down :D");
+                        nextStep.setOnClickListener(v -> {
+                            this.onDestroy();
+                        });
+                    } else if (logic.isLost()) {
+                        instruct.setText("Couldn't be solved by our algorithm >:(");
+                        nextStep.setOnClickListener(v -> {
+                            this.onDestroy();
+                        });
+                    } else
+                        extractMovesToScreen(logic.returnBestMoves());
                 }
                 while (logic.cardsToTurn() == 0);
                 Intent i = new Intent(context, ScannerActivity.class);

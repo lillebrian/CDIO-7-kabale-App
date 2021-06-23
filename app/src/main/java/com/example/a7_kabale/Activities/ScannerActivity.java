@@ -83,9 +83,6 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
 
     //linked list to act as queue for which cards that still needs scanning
     LinkedList<Integer> queue = new LinkedList<>();
-
-    //int value to define how many cards there should be scanned
-    int cardsToScan = 7;
     Boolean isExpanded = false;
 
     //classes used for OpenCV
@@ -129,10 +126,12 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
         alreadyScanned = savedVars.getStringSet("Cards", new HashSet<>());
 
 
-//        int cardsToScan = getIntent().getIntExtra("amount", 0);
-        int cardsToScan = 24;
+        int cardsToScan = getIntent().getIntExtra("amount", 0);
 //        RelativeLayout cardHolder = findViewById(R.id.cardViewer);
-
+        if (cardsToScan == 0) {
+            setResult(this.RESULT_OK);
+            finish();
+        }
         for (int i = 0; i < cardsToScan; i++) {
             ImageView image = new ImageView(getApplicationContext());
             image.setContentDescription(String.valueOf(i));
@@ -243,7 +242,8 @@ public class ScannerActivity extends AppCompatActivity implements CameraBridgeVi
             //#TODO check which one seems best (Size)
 //            Mat imageBlob = Dnn.blobFromImage(frame, 0.00392, new Size(416, 416), new Scalar(0, 0, 0), false, false);
             Mat imageBlob = Dnn.blobFromImage(frame, 0.00392, new Size(608, 608), new Scalar(0, 0, 0), false, false);
-
+            if (imageBlob == null)
+                return frame;
             tinyYolo.setInput(imageBlob);
 
             java.util.List<Mat> result = new java.util.ArrayList<Mat>(2);

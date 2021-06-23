@@ -31,7 +31,7 @@ public class AppController {
     }
 
     public boolean isWon() {
-        return logic.suits.suitFinished();
+        return logic.winnable;
     }
 
     public boolean isLost() {

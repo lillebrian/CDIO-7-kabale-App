@@ -54,7 +54,8 @@ public class Logic {
     /*The method called to run the algorithm */
     public void run() {
         if (winnable) {
-            finishUp();
+            return;
+//            finishUp();
         }
         else {
             listOfMoves = new ArrayList<>();
@@ -371,12 +372,15 @@ public class Logic {
                 move = temp;
 
             performSimMove(move, buildStackHolder, talons, suits);
-            if (checkForUnturnedCards(buildStackHolder.getStackList(), move))
+            if (checkForUnturnedCards(buildStackHolder.getStackList(), move)) {
+                absoluteMax = move;
                 return;
+            }
         }
 
         System.out.println(move.toString());
         System.out.println("done for real");
+        absoluteMax = move;
     }
 
     public int amountOfUnturnedCards() {
@@ -384,6 +388,8 @@ public class Logic {
         int amountOfFaceDownCard = 0;
 
         for (int i = 0; i < buildStackHolder.getStackList().size(); i++) {
+            if (buildStackHolder.getStackList().get(i).isStackEmpty())
+                continue;
             if (buildStackHolder.getStackList().get(i).getStackLeader().getLeader().getType() == Type.Unturned)
                 amountOfFaceDownCard += 1;
         }
