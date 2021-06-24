@@ -26,7 +26,9 @@ import com.example.a7_kabale.R;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-
+/**
+ * @author Gruppe 13 - Jacob Christensen s174130, Mads Hansen s195456, Mikkel Johansen s175194, Shania Hau s195477, Stefan Luxhøj s195467
+ **/
 public class MoveActivity extends AppCompatActivity implements View.OnClickListener {
 
 

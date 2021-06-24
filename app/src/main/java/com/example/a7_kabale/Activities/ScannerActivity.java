@@ -60,8 +60,11 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+/**
+ * @author Gruppe 13 - Jacob Christensen s174130, Mads Hansen s195456, Mikkel Johansen s175194, Shania Hau s195477, Stefan Luxhøj s195467
+ * @see <a href="https://github.com/ivangrov/Android-Deep-Learning-with-OpenCV"> OpenCV Guide Github </a> (Ivan Goncharow, 21-06 2021)
+ **/
 
-/**@Author Mikkel Johansen, s175194 */
 public class ScannerActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
     private static final String TAG = "MainActivity";
     Context whoAmI = this;

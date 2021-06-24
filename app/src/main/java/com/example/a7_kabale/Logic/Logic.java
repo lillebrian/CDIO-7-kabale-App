@@ -8,8 +8,8 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.Scanner;
 
-
 /**
+ * @author Gruppe 13 - Jacob Christensen s174130, Mads Hansen s195456, Mikkel Johansen s175194, Shania Hau s195477, Stefan Luxhøj s195467
  * This Class contains all the logic around the running of the algorithm
  */
 public class Logic {

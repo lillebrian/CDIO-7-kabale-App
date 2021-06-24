@@ -1,7 +1,9 @@
 package com.example.a7_kabale.Logic;
 
 import java.util.LinkedList;
-
+/**
+ * @author Gruppe 13 - Jacob Christensen s174130, Mads Hansen s195456, Mikkel Johansen s175194, Shania Hau s195477, Stefan Luxhøj s195467
+ **/
 //The block class act's as an container of cards that are linked up could be H5 S6, D7, C8 etc.
 public class Block {
     private final LinkedList<Card> block;

@@ -4,7 +4,9 @@ import com.example.a7_kabale.Logic.Enums.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
+/**
+ * @author Gruppe 13 - Jacob Christensen s174130, Mads Hansen s195456, Mikkel Johansen s175194, Shania Hau s195477, Stefan Luxhøj s195467
+ **/
 //this class contain all the logic of how cards can be moved and the scoring of the moves
 public class MoveLogic {
     LinkedList<Card> alreadyContained = new LinkedList<>();
